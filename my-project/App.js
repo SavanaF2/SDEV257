@@ -10,7 +10,7 @@ export default function App() {
 
     <Text style={styles.text}>
 
-    Open up App.js to start working on your app!
+    Hi, my name is Savana, and I am a mobile developer
 
     </Text>
 
