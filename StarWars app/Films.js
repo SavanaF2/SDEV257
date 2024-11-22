@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import { Text, SafeAreaView,  View, StyleSheet, FlatList, ActivityIndicator, Linking } from 'react-native';
-
+import Searchbar from "./search";
 import axios from 'axios'
 
 export default function Films() {
   
-
 
   const [films, setFilms] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -42,6 +41,9 @@ export default function Films() {
       <Text style={styles.header}>
         StarWars films
       </Text>
+      
+      <Searchbar> </Searchbar>
+
       <FlatList
       data = {films}
       keyExtractor = {(item) => item.properties.title}
