@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import { Text, SafeAreaView,  View, StyleSheet, FlatList, ActivityIndicator, Linking } from 'react-native';
-
+import Searchbar from "./search";
 import axios from 'axios'
 
 export default function PLanets() {
   
-
 
   const [planets, setPlanets] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -42,6 +41,7 @@ export default function PLanets() {
       <Text style={styles.header}>
         Planets in StarWars
       </Text>
+      <Searchbar> </Searchbar>
       <FlatList
       data = {planets}
       keyExtractor = {(item) => item.name}
@@ -84,3 +84,5 @@ const styles = StyleSheet.create({
     color: 'gray'
   }
 });
+
+
