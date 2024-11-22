@@ -9,7 +9,6 @@ import Home from "./Home";
 import Planets from "./Planets";
 import Films from "./Films";
 import Spaceships from "./Spaceships";
-import Searchbar from "./search";
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 export default function App() {
@@ -36,4 +35,4 @@ export default function App() {
     </NavigationContainer>
   );
 }
-}
+
