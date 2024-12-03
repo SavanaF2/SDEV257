@@ -34,8 +34,6 @@ export default function App() {
      );
     })();
   },[]);
- 
-
 
   return (
   <View style={styles.container}>
@@ -48,9 +46,8 @@ export default function App() {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       } : null }
-      
    >
-     //Markers for restaurants near me
+     {/*Markers for restaurants near me*/}
     <Marker
           title="Arni's restaurant"
           description="A family restaurant"
@@ -68,9 +65,6 @@ export default function App() {
           }}
         /> 
         </MapView>
-
-     
-      
   </View>
 );
 }
