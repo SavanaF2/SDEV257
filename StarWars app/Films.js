@@ -1,13 +1,53 @@
-import React, {useEffect, useState} from 'react';
-import { Text, SafeAreaView,  View, StyleSheet, FlatList, ActivityIndicator, Linking } from 'react-native';
+ import React, {useEffect, useState} from 'react';
+import { Text, SafeAreaView,  View, StyleSheet, FlatList,Modal, TouchableOpacity, ActivityIndicator, Linking, ScrollView, Image,}from 'react-native';
 import Searchbar from "./search";
 import axios from 'axios'
+import styles from "./styles"
+import Swipeable from "./Swipeable";
+import ConfirmationModal from "./ConfirmationModal";
+import {
+  GestureHandlerRootView,
+} from 'react-native-gesture-handler';
+
+const LazyImage = ({ source, style }) => {
+  const [loading, setLoading] = useState(true);
+
+  return (
+    <View style={[style, styles.lazyImageContainer]}>
+      {loading && (
+        <ActivityIndicator size="large" color="#6200ea" style={styles.loader} />
+      )}
+      <Image
+        source={source}
+        style={style}
+        onLoad={() => setLoading(false)}
+        resizeMode="contain"
+      />
+    </View>
+  );
+};
 
 export default function Films() {
-  
-
+  const [imageSize, setImageSize] = useState(200);
   const [films, setFilms] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [filmName, setFilmName] = useState([]);
   const [loading, setLoading] = useState(true);
+
+{/*When triggered toggles modal visibility to visable or unvisable */}
+function toggleModal() {
+    setModalVisible(!modalVisible);
+  }
+
+  function onSwipe(uid, name) {
+    return () => {
+      {/*Calls function which toggles modal visibility */}
+      toggleModal()
+      {/*Stores name of item that was swiped */}
+      setFilmName(name);
+      setFilms(films.filter((item) => item.uid !== uid));
+    };
+  }
 
   useEffect(() => {
   const fetchFilms = async () => {
@@ -34,55 +74,52 @@ export default function Films() {
       </SafeAreaView>
     );
   }
-
-
+ 
   return (
+    <GestureHandlerRootView style={styles.container}>
     <SafeAreaView style={styles.container}>
       <Text style={styles.header}>
         StarWars films
       </Text>
-      
+
+<ScrollView style={styles.scroll}>
+      {/*Creates the searchbar*/}
       <Searchbar> </Searchbar>
+
+{/*Loads image */}
+ <LazyImage
+          source={{
+            //uri: 'https://placekitten.com/800/600',
+            uri: 'https://th.bing.com/th/id/R.17230eb32e5978baee96bef9df901c4f?rik=WpYM8OWv7nvJdg&pid=ImgRaw&r=0',
+          }}
+          style={{
+            width: 370,
+            height: imageSize,
+            borderRadius: 10,
+          }}
+        />
 
       <FlatList
       data = {films}
       keyExtractor = {(item) => item.properties.title}
-      renderItem={({ item }) => (
-        <SafeAreaView style = {styles.item}>
-        <Text style={styles.name} onPress={() => Linking.openURL(item.properties.url)}> {item.properties.title}</Text>
-        
-        </SafeAreaView>
+      renderItem={({ item }) =>  (
+         <SafeAreaView style={styles.swipeContainer}>
+      <Text>
+        <Swipeable key={item.uid} onSwipe={onSwipe(item.uid, item.properties.title) } name={item.properties.title} />
+      </Text>
+       <ConfirmationModal
+       key={item.uid}
+        animationType="fade"
+         message={filmName}
+        visible={modalVisible}
+        onPressConfirm={toggleModal}
+        onPressCancel={toggleModal}
+      />
+      </SafeAreaView>
       )}
       />
+    </ScrollView>
     </SafeAreaView>
+    </GestureHandlerRootView>
   );
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: '#ecf0f1',
-    padding: 8,
-  },
-  center: {
-    flex: 1,
-    justifyContent: 'center',
-    textAlign: 'center',
-    alignItems: 'center',
-  },
-  header: {
-    fontsize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  item: {
-    padding: 15,
-    backgroundColor: '#f0f0f0',
-    justifyContent: 'center',
-  },
-  name: {
-    fontSize: 10,
-    color: 'gray'
-  }
-});
