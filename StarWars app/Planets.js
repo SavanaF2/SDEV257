@@ -30,7 +30,6 @@ const [imageSize, setImageSize] = useState(200);
   const [planets, setPlanets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
-  const [alertVisible, setAlertVisible] = useState(false);
   const [planetName, setPlanetName] = useState([]);
 
 {/*When triggered toggles modal visibility to visable or unvisable */}
