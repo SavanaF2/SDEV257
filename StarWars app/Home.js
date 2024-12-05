@@ -5,7 +5,7 @@ import Searchbar from "./search";
 export default function Home() {
   return (
   <View >
-    <Text>Home Content</Text>
+    <Text style={styles.header}>Home Content</Text>
     <Searchbar> </Searchbar>
   </View>
   );
