@@ -151,5 +151,3 @@ const deleteEvent = (id) => {
     </GestureHandlerRootView>
   );
 }
-
-{/*onPress={() => Linking.openURL(item.url)}*/}
