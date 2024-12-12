@@ -1,5 +1,5 @@
  import React, {useEffect, useState} from 'react';
-import { Text, SafeAreaView,  View, StyleSheet, FlatList,Modal, TouchableOpacity, ActivityIndicator, Linking, ScrollView, Image,}from 'react-native';
+import { Text, SafeAreaView,  View, FlatList,Modal, TouchableOpacity, ActivityIndicator, ScrollView, Image,}from 'react-native';
 import Searchbar from "./search";
 import axios from 'axios'
 import styles from "./styles"
@@ -8,6 +8,7 @@ import ConfirmationModal from "./ConfirmationModal";
 import {
   GestureHandlerRootView,
 } from 'react-native-gesture-handler';
+import { Ionicons } from '@expo/vector-icons';
 
 const LazyImage = ({ source, style }) => {
   const [loading, setLoading] = useState(true);
@@ -31,6 +32,7 @@ export default function Films() {
   const [imageSize, setImageSize] = useState(200);
   const [films, setFilms] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [searchbarVisible, setSearchbarVisible] = useState(false);
   const [filmName, setFilmName] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -46,6 +48,7 @@ function toggleModal() {
       {/*Stores name of item that was swiped */}
       setFilmName(name);
       setFilms(films.filter((item) => item.uid !== uid));
+      
     };
   }
 
@@ -74,22 +77,28 @@ function toggleModal() {
       </SafeAreaView>
     );
   }
- 
+
   return (
     <GestureHandlerRootView style={styles.container}>
     <SafeAreaView style={styles.container}>
+    <ScrollView style={styles.scroll}>
       <Text style={styles.header}>
         StarWars films
       </Text>
+      {/*When clicked toggles search bar visibility*/}
+      <TouchableOpacity style={styles.searchIcon} onPress={() => setSearchbarVisible(!searchbarVisible)}>
+         <Ionicons name="search" size={25} color="black" />
+      </TouchableOpacity>
 
-<ScrollView style={styles.scroll}>
-      {/*Creates the searchbar*/}
+      {/*If search bar is set to visible, shows the search bar*/}
+       {searchbarVisible && (
       <Searchbar> </Searchbar>
+       )}
 
 {/*Loads image */}
  <LazyImage
           source={{
-            //uri: 'https://placekitten.com/800/600',
+
             uri: 'https://th.bing.com/th/id/R.17230eb32e5978baee96bef9df901c4f?rik=WpYM8OWv7nvJdg&pid=ImgRaw&r=0',
           }}
           style={{
@@ -105,7 +114,8 @@ function toggleModal() {
       renderItem={({ item }) =>  (
          <SafeAreaView style={styles.swipeContainer}>
       <Text>
-        <Swipeable key={item.uid} onSwipe={onSwipe(item.uid, item.properties.title) } name={item.properties.title} />
+      {/*Sends the items name and url to the swipeble page. When swiped calls the onswipe function and passes the item's id and name to it.*/}
+        <Swipeable key={item.uid} onSwipe={onSwipe(item.uid, item.properties.title) } name={item.properties.title} url={item.properties.url}/>
       </Text>
        <ConfirmationModal
        key={item.uid}
