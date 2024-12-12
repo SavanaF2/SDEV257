@@ -3,6 +3,7 @@ import { Text, SafeAreaView,  View, TouchableOpacity, StyleSheet, Image,FlatList
 import Searchbar from "./search";
 import ConfirmationModal from "./ConfirmationModal";
 import Swipeable from "./Swipeable";
+import Network from "./Network";
 import axios from 'axios'
 import styles from "./styles"
 import {
@@ -99,6 +100,8 @@ const deleteEvent = (id) => {
 
   return (
     <GestureHandlerRootView style={styles.container}>
+     {/*Displays error if the application is disconnected from the network*/}
+    <Network> </Network>
     <SafeAreaView style={styles.container}>
     <ScrollView style={styles.scroll}>
       <Text style={styles.header}>
