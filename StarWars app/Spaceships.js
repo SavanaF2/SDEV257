@@ -8,6 +8,7 @@ import styles from "./styles"
 import {
   GestureHandlerRootView,
 } from 'react-native-gesture-handler';
+import { Ionicons } from '@expo/vector-icons';
 
 const LazyImage = ({ source, style }) => {
   const [loading, setLoading] = useState(true);
@@ -30,6 +31,7 @@ export default function Spaceships() {
   
    const [imageSize, setImageSize] = useState(200);
   const [modalVisible, setModalVisible] = useState(false);
+  const [searchbarVisible, setSearchbarVisible] = useState(false);
   const [spaceshipName, setSpaceshipName] = useState([]);
   const [spaceships, setSpaceships] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -98,15 +100,23 @@ const deleteEvent = (id) => {
   return (
     <GestureHandlerRootView style={styles.container}>
     <SafeAreaView style={styles.container}>
+    <ScrollView style={styles.scroll}>
       <Text style={styles.header}>
         Spaceships in StarWars
       </Text>
-       <ScrollView style={styles.scroll}>
+
+        {/*When clicked toggles search bar visibility*/}
+      <TouchableOpacity style={styles.searchIcon} onPress={() => setSearchbarVisible(!searchbarVisible)}>
+         <Ionicons name="search" size={25} color="black" />
+      </TouchableOpacity>
+
+       {/*If search bar is set to visible, shows the search bar*/}
+       {searchbarVisible && (
       <Searchbar> </Searchbar>
+       )}
      
         <LazyImage
           source={{
-            //uri: 'https://placekitten.com/800/600',
             uri: 'https://th.bing.com/th/id/OIP.LzGKW0JU9NjQCiosZXF7owHaEo?w=283&h=180&c=7&r=0&o=5&dpr=1.2&pid=1.7',
           }}
           style={{
@@ -122,7 +132,8 @@ const deleteEvent = (id) => {
       renderItem={({ item }) => (
           <SafeAreaView style={styles.swipeContainer}>
       <Text>
-        <Swipeable key={item.uid} onSwipe={onSwipe(item.uid, item.name) } name={item.name} />
+         {/*Sends the items name and url to the swipeable page. When swiped calls the onswipe function and passes the item's id and name to it.*/}
+        <Swipeable key={item.uid} onSwipe={onSwipe(item.uid, item.name) } name={item.name} url={item.url} />
       </Text>
        <ConfirmationModal
        key={item.uid}
@@ -140,3 +151,5 @@ const deleteEvent = (id) => {
     </GestureHandlerRootView>
   );
 }
+
+{/*onPress={() => Linking.openURL(item.url)}*/}
