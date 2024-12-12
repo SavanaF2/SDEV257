@@ -67,13 +67,6 @@ list: {
     marginBottom: 20,
     fontSize: 20,
   },
-  homeHeader: {
-    marginTop:8,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 20,
-    fontSize: 20,
-  },
   name: {
     fontSize: 20,
     color: 'black'
@@ -153,11 +146,6 @@ lazyImageContainer: {
     top:0,
     right:30,
 },
-  homeSearchIcon: {
-    position:"absolute",
-    top:8,
-    right:28,
-},
 slideshowText: {
   
   textAlign:"center",
@@ -172,5 +160,11 @@ homeText: {
 marginTop: 10,
 marginBottom: 20,
  fontSize: 14,
-}
+},
+  disconnected:{
+    backgroundColor:"red",
+    color:'white',
+    textAlign:"center",
+    height:30,
+  }
 });
