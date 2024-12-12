@@ -3,6 +3,7 @@ import { Text, SafeAreaView, Image, View, FlatList, ActivityIndicator, Touchable
 import Searchbar from "./search";
 import axios from 'axios';
 import Swipeable from "./Swipeable";
+import Network from "./Network";
 import ConfirmationModal from "./ConfirmationModal";
 import styles from "./styles";
 import {
@@ -28,7 +29,7 @@ const [loading, setLoading] = useState(true);
   );
 };
 
-export default function PLanets() {
+export default function Planets() {
   
 const [imageSize, setImageSize] = useState(200);
   const [planets, setPlanets] = useState([]);
@@ -80,6 +81,8 @@ const [imageSize, setImageSize] = useState(200);
 
   return (
     <GestureHandlerRootView style={styles.container}>
+     {/*Displays error if the application is disconnected from the network*/}
+    <Network> </Network>
     <SafeAreaView style={styles.container}>
     <ScrollView style={styles.scroll}>
       <Text style={styles.header}>
@@ -131,4 +134,3 @@ const [imageSize, setImageSize] = useState(200);
     </GestureHandlerRootView>
   );
 }
-
