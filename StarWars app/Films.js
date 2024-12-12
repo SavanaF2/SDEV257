@@ -1,10 +1,11 @@
- import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Text, SafeAreaView,  View, FlatList,Modal, TouchableOpacity, ActivityIndicator, ScrollView, Image,}from 'react-native';
 import Searchbar from "./search";
 import axios from 'axios'
 import styles from "./styles"
 import Swipeable from "./Swipeable";
 import ConfirmationModal from "./ConfirmationModal";
+import Network from "./Network";
 import {
   GestureHandlerRootView,
 } from 'react-native-gesture-handler';
@@ -80,6 +81,8 @@ function toggleModal() {
 
   return (
     <GestureHandlerRootView style={styles.container}>
+     {/*Displays error if the application is disconnected from the network*/}
+    <Network> </Network>
     <SafeAreaView style={styles.container}>
     <ScrollView style={styles.scroll}>
       <Text style={styles.header}>
