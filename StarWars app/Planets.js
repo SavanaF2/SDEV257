@@ -1,10 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import { Text, SafeAreaView, Image, View, StyleSheet, FlatList, ActivityIndicator, Linking, ScrollView } from 'react-native';
+import { Text, SafeAreaView, Image, View, FlatList, ActivityIndicator, TouchableOpacity, ScrollView } from 'react-native';
 import Searchbar from "./search";
 import axios from 'axios';
 import Swipeable from "./Swipeable";
 import ConfirmationModal from "./ConfirmationModal";
 import styles from "./styles";
+import {
+  GestureHandlerRootView,
+} from 'react-native-gesture-handler';
+import { Ionicons } from '@expo/vector-icons';
 
 const LazyImage = ({ source, style }) => {
 const [loading, setLoading] = useState(true);
@@ -29,6 +33,7 @@ export default function PLanets() {
 const [imageSize, setImageSize] = useState(200);
   const [planets, setPlanets] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchbarVisible, setSearchbarVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [planetName, setPlanetName] = useState([]);
 
@@ -42,7 +47,7 @@ const [imageSize, setImageSize] = useState(200);
     return () => {
       {/*Calls function which toggles modal visibility */}
       toggleModal()
-      {/*Stores name of item that was swiped */}
+      {/*Stores name of item that was swiped. Used to pass to the modal */}
       setPlanetName(name);
       setPlanets(planets.filter((item) => item.uid !== uid));
     };
@@ -74,17 +79,24 @@ const [imageSize, setImageSize] = useState(200);
   }
 
   return (
+    <GestureHandlerRootView style={styles.container}>
     <SafeAreaView style={styles.container}>
+    <ScrollView style={styles.scroll}>
       <Text style={styles.header}>
         Planets in StarWars
       </Text>
 
-       <ScrollView style={styles.scroll}>
+       {/*When clicked toggles search bar visibility*/}
+      <TouchableOpacity style={styles.searchIcon} onPress={() => setSearchbarVisible(!searchbarVisible)}>
+         <Ionicons name="search" size={25} color="black" />
+      </TouchableOpacity>
+       
+       {/*If search bar is set to visible, shows the search bar*/}
+       {searchbarVisible && (
       <Searchbar></Searchbar>
-      
+       )}
        <LazyImage
           source={{
-            //uri: 'https://placekitten.com/800/600',
             uri: 'https://th.bing.com/th/id/OIP.Xc2UiXCI3LcLE0tY64Oj_AHaDt?w=315&h=175&c=7&r=0&o=5&dpr=1.2&pid=1.7',
           }}
           style={{
@@ -100,7 +112,8 @@ const [imageSize, setImageSize] = useState(200);
       renderItem={({ item }) => (
          <SafeAreaView style={styles.swipeContainer}>
       <Text>
-        <Swipeable key={item.uid} onSwipe={onSwipe(item.uid, item.name) } name={item.name} />
+      {/*Sends the items name and url to the swipeable page. When swiped calls the onswipe function and passes the item's id and name to it.*/}
+        <Swipeable key={item.uid} onSwipe={onSwipe(item.uid, item.name) } name={item.name} url={item.url} />
       </Text>
        <ConfirmationModal
        key={item.uid}
@@ -115,5 +128,7 @@ const [imageSize, setImageSize] = useState(200);
       /> 
       </ScrollView>
     </SafeAreaView>
+    </GestureHandlerRootView>
   );
 }
+
