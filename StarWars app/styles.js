@@ -1,9 +1,7 @@
-  import { StyleSheet } from "react-native";
-
+import { StyleSheet } from "react-native";
 export default StyleSheet.create({
   textInputContainer: {
     alignSelf: "stretch",
-    marginBottom: 30,
   },
 
   textInputLabel: {
@@ -15,14 +13,15 @@ list: {
   },
  textInput: {
     backgroundColor: "white",
-    height: 20,
+    height: 30,
     fontSize: 11,
-    width:200,
+    width:230,
     borderRadius:4,
     margin: "auto",
   },
   textOutput: {
     margin: "auto",
+    paddingBottom:40,
   },
   event: {
     backgroundColor: '#e9ecef',
@@ -49,6 +48,12 @@ list: {
     backgroundColor: '#ecf0f1',
     padding: 8,
   },
+   homeContainer: {
+     flex:1,
+      margin:"auto",
+      backgroundColor: '#ecf0f1',
+    padding: 8,
+  },
   center: {
     flex: 1,
     justifyContent: 'center',
@@ -62,7 +67,13 @@ list: {
     marginBottom: 20,
     fontSize: 20,
   },
-
+  homeHeader: {
+    marginTop:8,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 20,
+    fontSize: 20,
+  },
   name: {
     fontSize: 20,
     color: 'black'
@@ -72,7 +83,7 @@ list: {
     flexDirection: "row",
     width: 200,
     height: 30,
-    marginTop: 50,
+    marginTop: 40,
     justifyContent: "center",
     margin:'auto',
   },
@@ -128,5 +139,38 @@ lazyImageContainer: {
   },
   loader: {
     position: 'absolute',
-  }
+  },
+  forwardArrow: {
+    position: 'absolute',
+    right:0,
+  },
+    backArrow: {
+    position: 'absolute',
+    left:0,
+  },
+  searchIcon: {
+    position:"absolute",
+    top:0,
+    right:30,
+},
+  homeSearchIcon: {
+    position:"absolute",
+    top:8,
+    right:28,
+},
+slideshowText: {
+  
+  textAlign:"center",
+  left:20,
+   fontSize: 18,
+  color: 'white',
+  postion:'absolute',
+  top:-30,
+  width:340,
+},
+homeText: {
+marginTop: 10,
+marginBottom: 20,
+ fontSize: 14,
+}
 });
