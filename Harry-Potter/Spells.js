@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import { Text, SafeAreaView, Button, FlatList, ActivityIndicator, ScrollView, Linking } from 'react-native';
+import { Text, SafeAreaView, FlatList, ActivityIndicator, ScrollView } from 'react-native';
 import axios from 'axios'
 import styles from "./styles"
 import InfoModal from "./InfoModal"
 
 export default function Spells() {
-
   const [spells, setSpells] = useState([]);
   const [loading, setLoading] = useState(true);
   const [itemName, setItemName] = useState([]);
