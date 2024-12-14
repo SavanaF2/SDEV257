@@ -1,5 +1,6 @@
+
 import React, {useEffect, useState} from 'react';
-import { Text, SafeAreaView, View, FlatList, Pressable, Modal,ActivityIndicator, ScrollView } from 'react-native';
+import { Text, SafeAreaView, View, Image, FlatList,ActivityIndicator, ScrollView } from 'react-native';
 import axios from 'axios'
 import styles from "./styles";
 import InfoModal from "./InfoModal"
@@ -7,14 +8,16 @@ import InfoModal from "./InfoModal"
 export default function Characters() { 
   const [characters, setCharacters] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [itemName, setItemName] = useState([]);
+  const [itemsWithBlanks, setItemsWithBlanks] = useState([]);
+  {/*Replaces blank items with the word null */}
+  const items = itemsWithBlanks.map(item => item === "" ? "Null" : item);
    const [modalVisible, setModalVisible] = useState(false);
-
+   const itemCategory = ["Name", "House", "Patronous", "Birthday"]
  function toggleModal() {
     setModalVisible(!modalVisible);
   }
 
-   {/*Try getting API data and store it in setCharacters if successful else throw error. */}
+   {/*Try getting API data and store it in setCharacters if successful, else throw error. */}
   useEffect(() => {
   const fetchCharacters = async () => {
     try{
@@ -43,9 +46,8 @@ export default function Characters() {
 {/*Goes into the flatlist. */}
    const renderItem = ({ item }) => (
      <SafeAreaView style={styles.scrollItem}>
-     {/*Once a character name is pressed, store data about that character in setItemName and show a pop up modal which will display said data.  */}
-        <Text style={styles.itemName}  onPress={() => { setModalVisible(true); const newArray = [item.name, item.house, item.patronus, item.dateOfBirth];
-    setItemName(newArray);}}> {item.name}   </Text>
+     {/*Once a character name is pressed, store data about that character and show a pop up modal which will display said data.  */}
+        <Text style={styles.itemName}  onPress={() => { setModalVisible(true); const infoArray = [item.name, item.house, item.patronus, item.dateOfBirth]; setItemsWithBlanks(infoArray); }}> {item.name}  </Text>
          </SafeAreaView > 
   );
   
@@ -61,17 +63,19 @@ export default function Characters() {
       keyExtractor = {(item) => item.name}
       renderItem={renderItem}
       />
-
          <InfoModal
         animationType="fade"
-         message={ `Name: ${itemName?.[0]} \nHouse: ${itemName?.[1]} \nPatronus: ${itemName?.[2]} \nBirthday: ${itemName?.[3]}`}
+        //Maps over the character information and gets called via the InfoModal page which displays it
+        message={
+          itemCategory.map((itemCategory, index) => (
+          `${itemCategory}: ${items[index]}\n`
+          ))
+        }
         visible={modalVisible}
         onPressConfirm={toggleModal}
         onPressCancel={toggleModal}
       />
-      
      </ScrollView>
   </SafeAreaView>
-    
   );
 }
