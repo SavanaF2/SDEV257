@@ -1,6 +1,6 @@
 
 import React, {useEffect, useState} from 'react';
-import { Text, SafeAreaView, View, Image, FlatList,ActivityIndicator, ScrollView } from 'react-native';
+import { Text, SafeAreaView, FlatList,ActivityIndicator, ScrollView } from 'react-native';
 import axios from 'axios'
 import styles from "./styles";
 import InfoModal from "./InfoModal"
